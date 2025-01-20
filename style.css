@@ -1,0 +1,10 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    background-image: url("vector_1580.svg");
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+}

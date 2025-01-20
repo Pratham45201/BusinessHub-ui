@@ -28,7 +28,7 @@ const Header = () => {
     <div>
       <Box>
         <AppBar position="sticky" elevation={0} sx={{ background: "transparent" }}>
-          <Toolbar sx={{ marginInline: "120px", mt: "30px" }}>
+          <Toolbar disableGutters sx={{ marginInline: "120px", mt: "30px" }}>
             <IconButton
               onClick={toggleDrawer}
               sx={{ display: { xs: "block", sm: "none" } }}

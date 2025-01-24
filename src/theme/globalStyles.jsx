@@ -1,3 +1,4 @@
+import { MarginOutlined } from "@mui/icons-material";
 import { GlobalStyles as MUIGlobalStyles } from "@mui/material";
 
 export default function GlobalStyles() {
@@ -23,6 +24,7 @@ export default function GlobalStyles() {
           flexDirection: "column",
           backgroundImage: `url("vector_1580.svg")`,
           backgroundRepeat: "no-repeat",
+          backgroundSize:"61%",
         },
         "#root": {
           width: "100%",

@@ -21,6 +21,7 @@ import {
   Card,
   CardMedia,
   CardContent,
+  Container,
 } from "@mui/material";
 import TrendingFlatIcon from "@mui/icons-material/TrendingFlat";
 
@@ -46,8 +47,10 @@ const boxData = [
 ];
 
 const AfterProcessSection = () => {
+  const columize = useMediaQuery("(max-width: 760px)");
+  const removeImage = useMediaQuery("(max-width: 550px)");
   return (
-    <>
+    <Container disableGutters maxWidth="xl">
       <Box
         sx={{
           textAlign: "center",
@@ -61,10 +64,11 @@ const AfterProcessSection = () => {
           sx={{
             display: "grid",
             textAlign: "center",
-            maxWidth: "60%",
-            marginInline: "auto",
-            gridTemplateColumns: "1fr 10fr 1fr",
+            maxWidth: { md: "60%" },
+            mx: { xs: "12px", sm: "20px", md: "auto" },
+            gridTemplateColumns: "1fr 5fr 1fr",
             gridTemplateRows: "auto",
+            alignItems: "center",
           }}
         >
           <Box
@@ -73,43 +77,58 @@ const AfterProcessSection = () => {
               gridRow: "1/1",
             }}
           >
-            <img src="rect_4372.svg" style={{ width: "100%" }} />
+            <img
+              src="rect_4372.svg"
+              style={{ width: "100%", display: removeImage ? "none" : "block" }}
+            />
           </Box>
-          <Stack
-            direction={"column"}
-            gridColumn={"2/3"}
-            gridRow={"1/1"}
+          <Box
             sx={{
-              gap: 4,
-              justifyContent: "center",
               alignItems: "center",
+              gridColumn: removeImage ? "1/4" : "2/3",
+              gridRow: "1/1",
+              marginTop: "auto",
+              marginBottom: "auto",
             }}
           >
-            <Typography variant="h1" sx={{ color: "white" }}>
+            <Typography
+              variant="h1"
+              sx={{
+                color: removeImage ? "common.darkPurple" : "white",
+                fontWeight: "bold",
+                marginTop: "auto",
+              }}
+            >
               Push your product to next level.
             </Typography>
             <Typography
-              variant="h4"
+              variant="h6"
               sx={{
-                color: "white",
+                color: removeImage ? "common.darkPurple" : "white",
                 fontWeight: "500",
+                my: { md: "3%", xs: "3%" },
               }}
             >
               End-to-end payments and financial management in a single solution.
               Meet the right platform to help realize.
             </Typography>
             <Button
-              sx={{ width: "180px", borderRadius: "47px", p: "15px 38px" }}
+              sx={{
+                width: "35%",
+                borderRadius: "47px",
+                p: "1vw 2vw",
+              }}
               variant="contained"
             >
               Get Started
             </Button>
-          </Stack>
+          </Box>
         </Box>
-
         <Box
           sx={{
             mt: "100px",
+            maxWidth: { md: "60%" },
+            mx: { xs: "12px", sm: "20px", md: "auto" },
           }}
         >
           <Typography variant="h1" sx={{}}>
@@ -117,7 +136,7 @@ const AfterProcessSection = () => {
           </Typography>
         </Box>
 
-        <Box width={{ md: "45%", sm: "70%", xs: "75%" }} marginInline={"auto"}>
+        <Box width={{ md: "45%", sm: "80%", xs: "85%" }} marginInline={"auto"}>
           <Typography
             variant="h4"
             color="common.grey"
@@ -129,25 +148,32 @@ const AfterProcessSection = () => {
           </Typography>
         </Box>
 
-        <Stack direction={"row"} mt={"100px"} justifyContent={"center"} gap={5}>
+        <Stack
+          direction={columize ? "column" : "row"}
+          mt={"100px"}
+          justifyContent={"space-between"}
+          mx={{ xs: "12px", sm: "20px", md: "36px", lg: "120px" }}
+          gap={columize ? 5 : 0}
+        >
           {boxData.map((item, index) => (
             <Box
+            key={index}
               sx={{
                 display: "flex",
                 flexDirection: "column",
                 background: "white",
                 borderRadius: "20px",
                 textAlign: "left",
-                width: "380px",
-                height: "350px",
-                alignItems: "start",
-                justifyContent: "flex-end",
+                flexBasis: "31%",
+                height: "auto",
+                alignItems: "flex-start",
+                justifyContent: "center",
                 textAlign: "left",
-                p: "0 2% 2% 2%",
+                p: "20px",
               }}
             >
               <img src={item.logo} style={{ width: "12%" }} />
-              <Typography variant="h3" mt="10%">
+              <Typography variant="h3" mt="10%" marginBottom="auto">
                 {item.title}
               </Typography>
               <Typography
@@ -178,12 +204,15 @@ const AfterProcessSection = () => {
             background: "linear-gradient(180deg, #F5F8FF 73%, white 50%)",
           }}
         >
-          <Button variant="contained" sx={{ mt: "4%" }}>
+          <Button
+            variant="contained"
+            sx={{ mt: "4%", width: "237px", height: "52px" }}
+          >
             More About Platform
           </Button>
         </Box>
       </Box>
-    </>
+    </Container>
   );
 };
 

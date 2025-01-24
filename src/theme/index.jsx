@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { useMemo } from "react";
-// @mui
-import { colors, CssBaseline, responsiveFontSizes } from "@mui/material";
+import { CssBaseline, responsiveFontSizes } from "@mui/material";
 import {
   ThemeProvider as MUIThemeProvider,
   createTheme,
@@ -11,6 +10,7 @@ import {
 import palette from "./palette";
 import typography from "./typography";
 import GlobalStyles from "./globalStyles";
+import { BorderColor, Opacity, Widgets } from "@mui/icons-material";
 
 const ThemeProvider = (props) => {
   const { children } = props;
@@ -34,9 +34,8 @@ const ThemeProvider = (props) => {
         root: {
           borderRadius: "12px !important",
         },
-        inputMultiline: {
+        multiline: {
           padding: "0px !important",
-          borderRadius: "0px !important",
         },
       },
     },
@@ -47,12 +46,33 @@ const ThemeProvider = (props) => {
           FontSize: "16px",
           fontWeight: 400,
           borderWidth: "0.8px",
-          color: "#FFFFFF",
+          color: "#000000",
         },
         notchedOutline: {
           border: "1px solid #83899B2B",
           backgroundColor: "rgba(159, 158, 150, 0.08)",
           borderRadius: "12px",
+        },
+      },
+    },
+    MuiFilledInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "white !important",
+          borderRadius: "5px !important",
+          "&:hover": {
+            backgroundColor: "white",
+          },
+          "& .Mui-focused": {
+            backgroundColor: "white",
+          },
+        },
+        input: {
+          color: "rgb(102, 102, 102)",
+          fontWeight: "bold",
+          paddingLeft: "12px !important",
+          paddingBottom: "0px !important",
+          fontSize: "20px",
         },
       },
     },
@@ -78,6 +98,59 @@ const ThemeProvider = (props) => {
         startIcon: {
           [theme.breakpoints.down("md")]: {
             margin: "0",
+          },
+        },
+      },
+    },
+    MuiListItemText: {
+      styleOverrides: {
+        root: {
+          fontSize: "16px",
+          color: "#181433",
+        },
+      },
+    },
+    MuiListSubheader: {
+      styleOverrides: {
+        root: {
+          color: "#1B1C31",
+          fontSize: "21px",
+        },
+      },
+    },
+    MuiDialog: {
+      styleOverrides: {
+        root: {
+          "& .MuiDialogTitle-root": {
+            color: "#1D1D3E",
+            fontSize: "30px",
+            fontWeight: "600",
+          },
+          "& .MuiInputLabel-root": {
+            color: "#1D1D3E",
+            fontSize: "12px",
+            marginBottom: "8px",
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderRadius: "5px",
+            backgroundColor: "transparent",
+            borderColor: "#EEEEEE",
+          },
+          "& .MuiInputBase-input": {
+            padding: "15px !important",
+            "&::placeholder": {
+              color: "#999999",
+              opacity: 1,
+            },
+          },
+        },
+      },
+      defaultProps: {
+        slotProps: {
+          backdrop: {
+            sx: {
+              backdropFilter: "blur(3px)",
+            },
           },
         },
       },

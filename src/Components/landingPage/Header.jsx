@@ -77,6 +77,11 @@ const Header = () => {
 
   const Image = styled("img")``;
 
+  const userData = sessionStorage.getItem("loginData");
+  if(userData){
+    console.log(userData);
+  }
+
   const DrawerList = (
     <Box
       sx={{
@@ -90,9 +95,6 @@ const Header = () => {
       role="presentation"
     >
       <Box
-        disablePadding
-        disableElevation
-        disableGutters
         sx={{
           display: "flex",
           justifyContent: "space-between",
@@ -136,7 +138,6 @@ const Header = () => {
         </Button>
         <Button
           onClick={handleOpenSignup}
-          disablePadding
           variant="contained"
           sx={{ textDecoration: "none" }}
         >

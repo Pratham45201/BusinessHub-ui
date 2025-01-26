@@ -5,15 +5,18 @@ import HeroSection from "./Components/landingPage/HeroSection";
 import ThemeProvider from "./theme";
 import Routes from "./routes/Routes";
 import { BrowserRouter } from "react-router-dom";
+import { AuthContextProvider } from "./context/AuthContext";
 
 const App = () => {
   return (
     <>
-      <ThemeProvider>
-        <BrowserRouter>
-          <Routes />
-        </BrowserRouter>
-      </ThemeProvider>
+      <AuthContextProvider>
+        <ThemeProvider>
+          <BrowserRouter>
+            <Routes />
+          </BrowserRouter>
+        </ThemeProvider>
+      </AuthContextProvider>
     </>
   );
 };

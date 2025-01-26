@@ -3,7 +3,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import * as yup from "yup";
 import { Formik, Form } from "formik";
-import { useState } from "react";
+import { useLogin } from "../../hooks/useLogin";
 
 import {
   Stack,
@@ -16,6 +16,8 @@ import {
 } from "@mui/material";
 
 const LoginDialog = ({ open, openSignup, close }) => {
+  const { login, isLoading } = useLogin();
+
   const initialValue = {
     email: "",
     password: "",
@@ -39,12 +41,8 @@ const LoginDialog = ({ open, openSignup, close }) => {
       <Formik
         initialValues={initialValue}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-            close();
-          }, 400);
+        onSubmit={async (values, { setSubmitting }) => {
+          login(values);
         }}
       >
         {({
@@ -124,7 +122,7 @@ const LoginDialog = ({ open, openSignup, close }) => {
                   <Typography>Remember me next time</Typography>
                 </Stack>
 
-                <Button variant="contained" type="submit" >
+                <Button variant="contained" type="submit">
                   Login
                 </Button>
 

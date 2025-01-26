@@ -10,7 +10,6 @@ import {
 import palette from "./palette";
 import typography from "./typography";
 import GlobalStyles from "./globalStyles";
-import { BorderColor, Opacity, Widgets } from "@mui/icons-material";
 
 const ThemeProvider = (props) => {
   const { children } = props;
@@ -143,6 +142,9 @@ const ThemeProvider = (props) => {
               opacity: 1,
             },
           },
+          "& .MuiFormHelperText-root":{
+            margin:"2px",
+          }
         },
       },
       defaultProps: {

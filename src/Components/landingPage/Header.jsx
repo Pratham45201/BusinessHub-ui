@@ -258,7 +258,7 @@ const Header = () => {
           </Drawer>
         </nav>
       </Box>
-      <LoginDialog open={openLoginDialog} close={handleOpenLoginDialog} />
+      <LoginDialog open={openLoginDialog} />
       <CreateAccountDialog
         open={openCreateAccountDialog}
         close={handleCreateAccountDialog}

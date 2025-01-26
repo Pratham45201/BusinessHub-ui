@@ -26,7 +26,6 @@ import CreateAccountDialog from "../dialogs/CreateAccountDialog";
 import EditProfileDialog from "../dialogs/EditProfileDialog";
 
 let navItems = ["Product", "Template", "Blog", "Pricing"];
-let navItems2 = ["Sign In", "Start Free"];
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,14 +36,22 @@ const Header = () => {
     ["Template 1", "Template 2", "Template 3"],
   ];
 
-  const [openLoginDialog, setOpenLoginDialog] = useState(false);
-  const handleOpenLoginDialog = () => {
-    setOpenLoginDialog(!openLoginDialog);
+  const [openLogin, setOpenLogin] = useState(false);
+  const [openSignup, setOpenSignup] = useState(false);
+
+  const handleOpenLogin = () => {
+    setOpenLogin(true);
+    setOpenSignup(false);
   };
 
-  const [openCreateAccountDialog, setOpenCreateAccountDialog] = useState(false);
-  const handleCreateAccountDialog = () => {
-    setOpenCreateAccountDialog(!openCreateAccountDialog);
+  const handleOpenSignup = () => {
+    setOpenSignup(true);
+    setOpenLogin(false);
+  };
+
+  const handleDialogClose = () => {
+    setOpenLogin(false);
+    setOpenSignup(false);
   };
 
   const [openEditProfileDialog, setOpenEditProfileDialog] = useState(false);
@@ -117,7 +124,7 @@ const Header = () => {
         }}
       >
         <Button
-          onClick={handleOpenLoginDialog}
+          onClick={handleOpenLogin}
           sx={{
             textDecoration: "none",
             p: 0,
@@ -128,7 +135,7 @@ const Header = () => {
           Sign In
         </Button>
         <Button
-          onClick={handleCreateAccountDialog}
+          onClick={handleOpenSignup}
           disablePadding
           variant="contained"
           sx={{ textDecoration: "none" }}
@@ -207,7 +214,7 @@ const Header = () => {
               <Button
                 disableElevation
                 variant="text"
-                onClick={handleOpenLoginDialog}
+                onClick={handleOpenLogin}
                 sx={{
                   color: "black",
                   fontSize: "14px",
@@ -223,7 +230,7 @@ const Header = () => {
               <Button
                 disableElevation
                 variant="contained"
-                onClick={handleCreateAccountDialog}
+                onClick={handleOpenSignup}
                 sx={{
                   color: "white",
                   fontSize: "14px",
@@ -258,11 +265,8 @@ const Header = () => {
           </Drawer>
         </nav>
       </Box>
-      <LoginDialog open={openLoginDialog} />
-      <CreateAccountDialog
-        open={openCreateAccountDialog}
-        close={handleCreateAccountDialog}
-      />
+      <LoginDialog open={openLogin} openSignup={handleOpenSignup} close={handleDialogClose} />
+      <CreateAccountDialog open={openSignup} openLogin={handleOpenLogin} close={handleDialogClose} />
       <EditProfileDialog
         open={openEditProfileDialog}
         close={handleOpenEditProfileDialog}

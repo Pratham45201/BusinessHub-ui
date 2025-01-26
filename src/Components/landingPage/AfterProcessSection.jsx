@@ -168,7 +168,6 @@ const AfterProcessSection = () => {
                 height: "auto",
                 alignItems: "flex-start",
                 justifyContent: "center",
-                textAlign: "left",
                 p: "20px",
               }}
             >

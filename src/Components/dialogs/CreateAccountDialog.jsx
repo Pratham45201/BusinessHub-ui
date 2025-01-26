@@ -12,7 +12,7 @@ import {
 import * as yup from "yup";
 import { Formik, Form } from "formik";
 
-const CreateAccountDialog = ({ open, close }) => {
+const CreateAccountDialog = ({ open, openLogin, close }) => {
   const validationSchema = yup.object().shape({
     firstName: yup.string().trim().required("First name is required"),
 
@@ -53,6 +53,7 @@ const CreateAccountDialog = ({ open, close }) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
             setSubmitting(false);
+            openLogin();
           }, 400);
           console.log(setSubmitting);
         }}
@@ -181,7 +182,8 @@ const CreateAccountDialog = ({ open, close }) => {
                   mt={"30px"}
                 >
                   <Typography>Already have an account?</Typography>
-                  <Button disabled={isSubmitting} variant="text" sx={{ p: 0, fontWeight: "100" }}>
+                  <Button disabled={isSubmitting}
+                  onClick={openLogin} variant="text" sx={{ p: 0, fontWeight: "100" }}>
                     Sign in
                   </Button>
                 </Stack>

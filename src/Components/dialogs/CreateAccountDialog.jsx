@@ -11,6 +11,9 @@ import {
 } from "@mui/material";
 import * as yup from "yup";
 import { Formik, Form } from "formik";
+import { useCreateAccount } from "../../hooks/useCreateAccount";
+import { useEditProfile } from "../../hooks/useEditProfile";
+import { useEffect } from "react";
 
 const CreateAccountDialog = ({ open, openLogin, close }) => {
   const validationSchema = yup.object().shape({
@@ -40,18 +43,17 @@ const CreateAccountDialog = ({ open, openLogin, close }) => {
     confirmPassword: "",
   };
 
+  const { signup, success, errorMessage } = useCreateAccount();
+  useEffect(() => {
+    if(success) openLogin();
+  }, [success]);
   return (
     <>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-            openLogin();
-          }, 400);
-          console.log(setSubmitting);
+          signup(values);
         }}
       >
         {({
@@ -178,8 +180,11 @@ const CreateAccountDialog = ({ open, openLogin, close }) => {
                   mt={"30px"}
                 >
                   <Typography>Already have an account?</Typography>
-                  <Button disabled={isSubmitting}
-                  onClick={openLogin} variant="text" sx={{ p: 0, fontWeight: "100" }}>
+                  <Button
+                    onClick={openLogin}
+                    variant="text"
+                    sx={{ p: 0, fontWeight: "100" }}
+                  >
                     Sign in
                   </Button>
                 </Stack>

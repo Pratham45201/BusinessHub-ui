@@ -43,7 +43,7 @@ export const useEditProfile = () => {
               firstName: values.firstName,
               lastName: values.lastName,
               gender: values.gender,
-              email:values.email,
+              email: values.email,
               companyName: values.companyName,
               education: values.education,
               jobTitle: values.jobTitle,
@@ -53,6 +53,7 @@ export const useEditProfile = () => {
               experienceYearMax: values.experienceYearMax,
               educationYearMin: values.educationYearMin,
               educationYearMax: values.educationYearMax,
+              token: token,
             })
           );
         }

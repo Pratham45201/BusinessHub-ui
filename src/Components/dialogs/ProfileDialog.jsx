@@ -77,7 +77,6 @@ const ProfileDialog = ({ open, openEditProfile, close }) => {
                   color: "primary.main",
                   backgroundColor: "#EBEAFF",
                 }}
-                onClick={openEditProfile}
               >
                 Change Password
               </Button>

@@ -159,7 +159,7 @@ const EditProfileDialog = ({ open, close }) => {
                       helperText={touched.firstName && errors.firstName}
                       placeholder="First Name"
                       variant="outlined"
-                      value={values.email}
+                      value={values.firstName}
                       sx={{ width: "100%" }}
                       defaultValue={initialValues.firstName}
                     ></TextField>

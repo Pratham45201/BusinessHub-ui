@@ -23,8 +23,8 @@ export const useLogin = () => {
     axios
       .post(`${import.meta.env.VITE_APP_API_URL}/auth/login`, body, config)
       .then((response) => {
-        setErrorMessage(null)
-        setLoginSuccess(true)
+        setErrorMessage(null);
+        setLoginSuccess(true);
         setIsLoading(false);
         if (response.data) {
           sessionStorage.setItem(

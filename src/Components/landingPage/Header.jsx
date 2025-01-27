@@ -28,6 +28,9 @@ import CreateAccountDialog from "../dialogs/CreateAccountDialog";
 import EditProfileDialog from "../dialogs/EditProfileDialog";
 import exampleImage from "../../resources/images/unnamed.jpg";
 import ProfileDialog from "../dialogs/ProfileDialog";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import { useGetNotifications } from "../../hooks/useGetNotifications";
+import NotificationsDialog from "../dialogs/NotificationsDialog";
 
 let navItems = ["Product", "Template", "Blog", "Pricing"];
 
@@ -44,6 +47,7 @@ const Header = () => {
   const [openSignup, setOpenSignup] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const [openEditProfile, setOpenEditProfile] = useState(false);
+  const [openNotification, setOpenNotifications] = useState(false);
 
   const handleOpenLogin = () => {
     setOpenLogin(true);
@@ -76,13 +80,19 @@ const Header = () => {
     setOpenLogin(false);
     setOpenSignup(false);
     setOpenEditProfile(false);
+    setOpenNotifications(false);
   };
 
   const handleProfileDialogClose = () => {
     setOpenProfile(false);
   };
 
+  const handleOpenNotifications = () => {
+    setOpenNotifications(true);
+  }
+
   const showDrawer = useMediaQuery("(max-width: 600px)");
+  const removeName = useMediaQuery("(max-width: 500px)");
 
   const open = Boolean(anchorEl);
   const handleClick = (event, index) => {
@@ -99,6 +109,8 @@ const Header = () => {
   };
 
   const Image = styled("img")``;
+
+  const { getNotifications, notifications } = useGetNotifications(); 
 
   let LoginComponent;
   const userData = JSON.parse(sessionStorage.getItem("loginData"));
@@ -159,23 +171,40 @@ const Header = () => {
     );
   } else {
     LoginComponent = () => (
-      <Box
-        onClick={handleOpenProfile}
-        sx={{
-          display: "flex",
-          backgroundColor: "primary.main",
-          alignItems: "center",
-          p: "8px 15px",
-          color: "white",
-          gap: 2,
-          borderRadius: "10px",
-        }}
-      >
-        <Typography>
-          {userData.firstName} {userData.lastName}
-        </Typography>
-        <Avatar src={exampleImage} sx={{ width: "30px", height: "30px" }} />
-      </Box>
+      <>
+        <Box display={"flex"} gap={{xs:0, sm:2}}>
+          <Box
+            onClick={handleOpenProfile}
+            sx={{
+              display: "flex",
+
+              backgroundColor: removeName ? "none" : "primary.main",
+              alignItems: "center",
+              p: "8px 15px",
+              color: "white",
+              gap: 2,
+              borderRadius: "10px",
+            }}
+          >
+            <Typography display={removeName ? "none" : "block"}>
+              {userData.firstName} {userData.lastName}
+            </Typography>
+            <Avatar
+              src={exampleImage}
+              sx={{
+                width: removeName ? "40px" : "30px",
+                height: removeName ? "40px" : "30px",
+              }}
+            />
+          </Box>
+          <IconButton onClick={async () => {
+            getNotifications();
+            setOpenNotifications(true);
+          }}>
+            <NotificationsIcon color="primary" />
+          </IconButton>
+        </Box>
+      </>
     );
   }
 
@@ -331,6 +360,13 @@ const Header = () => {
         openEditProfile={handleOpenEditProfile}
         close={handleProfileDialogClose}
       />
+
+      <NotificationsDialog 
+        open={openNotification}
+        notifications={notifications ? notifications.data:[]}
+        close={handleDialogClose}
+      />
+
     </Container>
   );
 };

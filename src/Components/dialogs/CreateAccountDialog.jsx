@@ -15,20 +15,16 @@ import { Formik, Form } from "formik";
 const CreateAccountDialog = ({ open, openLogin, close }) => {
   const validationSchema = yup.object().shape({
     firstName: yup.string().trim().required("First name is required"),
-
     lastName: yup.string().trim().required("Last name is required"),
-
     email: yup
       .string()
       .trim()
       .email("Invalid email address")
       .required("Email is required"),
-
     password: yup
       .string()
       .min(8, "Password should be of minimum 8 characters")
       .required("Password is required"),
-
     confirmPassword: yup
       .string()
       .min(8, "Password should be of minimum 8 characters")

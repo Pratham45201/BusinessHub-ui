@@ -18,11 +18,17 @@ export default [
   {
     files: ["**/*.js", "**/*.jsx"],
     languageOptions: {
-      globals: { ...globals.browser, ...globals.node },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        process: "readonly", // Add this line
+      },
       parserOptions: {
         ecmaFeatures: {
           jsx: true,
         },
+        ecmaVersion: "latest",
+        sourceType: "module",
       },
     },
     rules: {

@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Avatar,
   Box,
   Stack,
   Button,
@@ -16,6 +17,7 @@ import {
   Container,
   Menu,
   MenuItem,
+  Typography,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -24,6 +26,8 @@ import { useState } from "react";
 import LoginDialog from "../dialogs/LoginDialog";
 import CreateAccountDialog from "../dialogs/CreateAccountDialog";
 import EditProfileDialog from "../dialogs/EditProfileDialog";
+import exampleImage from "../../resources/images/unnamed.jpg";
+import ProfileDialog from "../dialogs/ProfileDialog";
 
 let navItems = ["Product", "Template", "Blog", "Pricing"];
 
@@ -38,25 +42,44 @@ const Header = () => {
 
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
+  const [openEditProfile, setOpenEditProfile] = useState(false);
 
   const handleOpenLogin = () => {
     setOpenLogin(true);
     setOpenSignup(false);
+    setOpenProfile(false);
+    setOpenEditProfile(false);
   };
 
   const handleOpenSignup = () => {
-    setOpenSignup(true);
     setOpenLogin(false);
+    setOpenSignup(true);
+    setOpenProfile(false);
+    setOpenEditProfile(false);
+  };
+
+  const handleOpenProfile = () => {
+    setOpenLogin(false);
+    setOpenSignup(false);
+    setOpenProfile(true);
+    setOpenEditProfile(false);
+  };
+
+  const handleOpenEditProfile = () => {
+    setOpenLogin(false);
+    setOpenSignup(false);
+    setOpenEditProfile(true);
   };
 
   const handleDialogClose = () => {
     setOpenLogin(false);
     setOpenSignup(false);
+    setOpenEditProfile(false);
   };
 
-  const [openEditProfileDialog, setOpenEditProfileDialog] = useState(false);
-  const handleOpenEditProfileDialog = () => {
-    setOpenEditProfileDialog(!openEditProfileDialog);
+  const handleProfileDialogClose = () => {
+    setOpenProfile(false);
   };
 
   const showDrawer = useMediaQuery("(max-width: 600px)");
@@ -77,9 +100,83 @@ const Header = () => {
 
   const Image = styled("img")``;
 
-  const userData = sessionStorage.getItem("loginData");
-  if(userData){
-    console.log(userData);
+  let LoginComponent;
+  const userData = JSON.parse(sessionStorage.getItem("loginData"));
+  if (!userData) {
+    LoginComponent = () => (
+      <Stack
+        sx={{
+          flexDirection: "row",
+          gap: 4,
+        }}
+      >
+        <Button
+          disableElevation
+          variant="text"
+          onClick={handleOpenLogin}
+          sx={{
+            color: "black",
+            fontSize: "14px",
+            textTransform: "none",
+            fontWeight: "500",
+            p: 0,
+            borderRadius: "10px",
+            display: showDrawer ? "none" : "block",
+          }}
+        >
+          Sign In
+        </Button>
+        <Button
+          disableElevation
+          variant="contained"
+          onClick={handleOpenSignup}
+          sx={{
+            color: "white",
+            fontSize: "14px",
+            textTransform: "none",
+            fontWeight: "500",
+            background: "#4F46BA",
+            p: {
+              lg: "17px 35px",
+              md: "14.5px 29px",
+              xs: "12px 24px",
+            },
+            borderRadius: "10px",
+            display: showDrawer ? "none" : "block",
+          }}
+        >
+          Start free
+        </Button>
+        <IconButton
+          onClick={toggleDrawer}
+          sx={{ display: { md: "none", xs: "block" }, p: 0 }}
+        >
+          <Icon>
+            <MenuIcon />
+          </Icon>
+        </IconButton>
+      </Stack>
+    );
+  } else {
+    LoginComponent = () => (
+      <Box
+        onClick={handleOpenProfile}
+        sx={{
+          display: "flex",
+          backgroundColor: "primary.main",
+          alignItems: "center",
+          p: "8px 15px",
+          color: "white",
+          gap: 2,
+          borderRadius: "10px",
+        }}
+      >
+        <Typography>
+          {userData.firstName} {userData.lastName}
+        </Typography>
+        <Avatar src={exampleImage} sx={{ width: "30px", height: "30px" }} />
+      </Box>
+    );
   }
 
   const DrawerList = (
@@ -206,58 +303,7 @@ const Header = () => {
               ))}
             </Stack>
 
-            <Stack
-              sx={{
-                flexDirection: "row",
-                gap: 4,
-              }}
-            >
-              <Button
-                disableElevation
-                variant="text"
-                onClick={handleOpenLogin}
-                sx={{
-                  color: "black",
-                  fontSize: "14px",
-                  textTransform: "none",
-                  fontWeight: "500",
-                  p: 0,
-                  borderRadius: "10px",
-                  display: showDrawer ? "none" : "block",
-                }}
-              >
-                Sign In
-              </Button>
-              <Button
-                disableElevation
-                variant="contained"
-                onClick={handleOpenSignup}
-                sx={{
-                  color: "white",
-                  fontSize: "14px",
-                  textTransform: "none",
-                  fontWeight: "500",
-                  background: "#4F46BA",
-                  p: {
-                    lg: "17px 35px",
-                    md: "14.5px 29px",
-                    xs: "12px 24px",
-                  },
-                  borderRadius: "10px",
-                  display: showDrawer ? "none" : "block",
-                }}
-              >
-                Start free
-              </Button>
-              <IconButton
-                onClick={toggleDrawer}
-                sx={{ display: { md: "none", xs: "block" }, p: 0 }}
-              >
-                <Icon>
-                  <MenuIcon />
-                </Icon>
-              </IconButton>
-            </Stack>
+            <LoginComponent />
           </Toolbar>
         </AppBar>
         <nav>
@@ -266,11 +312,24 @@ const Header = () => {
           </Drawer>
         </nav>
       </Box>
-      <LoginDialog open={openLogin} openSignup={handleOpenSignup} close={handleDialogClose} />
-      <CreateAccountDialog open={openSignup} openLogin={handleOpenLogin} close={handleDialogClose} />
-      <EditProfileDialog
-        open={openEditProfileDialog}
-        close={handleOpenEditProfileDialog}
+
+      <LoginDialog
+        open={openLogin}
+        openSignup={handleOpenSignup}
+        close={handleDialogClose}
+      />
+      <CreateAccountDialog
+        open={openSignup}
+        openLogin={handleOpenLogin}
+        close={handleDialogClose}
+      />
+
+      <EditProfileDialog open={openEditProfile} close={handleDialogClose} />
+
+      <ProfileDialog
+        open={openProfile}
+        openEditProfile={handleOpenEditProfile}
+        close={handleProfileDialogClose}
       />
     </Container>
   );

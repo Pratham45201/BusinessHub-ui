@@ -16,7 +16,11 @@ import {
 } from "@mui/material";
 
 const LoginDialog = ({ open, openSignup, close }) => {
-  const { login, isLoading } = useLogin();
+  const { login, loginSuccess, errorMessage } = useLogin();
+
+  React.useEffect(() => {
+    if (loginSuccess) close();
+  }, [loginSuccess]);
 
   const initialValue = {
     email: "",
@@ -43,6 +47,7 @@ const LoginDialog = ({ open, openSignup, close }) => {
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
           login(values);
+          setSubmitting(false);
         }}
       >
         {({
@@ -97,8 +102,13 @@ const LoginDialog = ({ open, openSignup, close }) => {
                     value={values.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={touched.password && Boolean(errors.password)}
-                    helperText={touched.password && errors.password}
+                    error={
+                      (touched.password && Boolean(errors.password)) ||
+                      errorMessage !== null
+                    }
+                    helperText={
+                      (touched.password && errors.password) || errorMessage
+                    }
                     sx={{ width: "100%" }}
                   ></TextField>
                 </Box>

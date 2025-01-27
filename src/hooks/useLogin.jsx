@@ -3,6 +3,9 @@ import axios from "axios";
 
 export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(null);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const login = (values) => {
     setIsLoading(true);
     const config = {
@@ -16,9 +19,12 @@ export const useLogin = () => {
       password: values.password,
     };
 
+    let token = null;
     axios
-      .post(`https://uniqual.dev:3001/api/v1/auth/login`, body, config)
+      .post(`${import.meta.env.VITE_APP_API_URL}/auth/login`, body, config)
       .then((response) => {
+        setErrorMessage(null)
+        setLoginSuccess(true)
         setIsLoading(false);
         if (response.data) {
           sessionStorage.setItem(
@@ -27,15 +33,17 @@ export const useLogin = () => {
               firstName: response.data.data?.firstName,
               lastName: response.data.data?.lastName,
               email: values.email,
+              token: response.data.data.authentication.accessToken,
             })
           );
         }
       })
       .catch((e) => {
-        console.log(e.response.data.message);
+        console.error(e);
+        setErrorMessage(e.response.data.message);
         setIsLoading(false);
         return e.response.data.message;
       });
   };
-  return { login, isLoading };
+  return { login, loginSuccess, errorMessage };
 };
